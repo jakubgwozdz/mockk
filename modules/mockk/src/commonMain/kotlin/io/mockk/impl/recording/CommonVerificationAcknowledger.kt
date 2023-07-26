@@ -17,13 +17,13 @@ class CommonVerificationAcknowledger(
         (invocation.stub as? Stub)?.markCallVerified(invocation)
     }
 
-    override fun acknowledgeVerified() {
-        stubRepo.allStubs.forEach { acknowledgeVerificationHelper(it) }
+    override fun acknowledgeVerified(ignoreGetters: Boolean) {
+        stubRepo.allStubs.forEach { acknowledgeVerificationHelper(it, ignoreGetters) }
     }
 
-    override fun acknowledgeVerified(mock: Any) {
+    override fun acknowledgeVerified(mock: Any, ignoreGetters: Boolean) {
         val stub = stubRepo.stubFor(mock)
-        acknowledgeVerificationHelper(stub)
+        acknowledgeVerificationHelper(stub, ignoreGetters)
     }
 
     override fun checkUnnecessaryStub() {
@@ -35,9 +35,13 @@ class CommonVerificationAcknowledger(
         checkUnnecessaryStubHelper(stub)
     }
 
-    private fun acknowledgeVerificationHelper(stub: Stub) {
-        val allCalls = stub.allRecordedCalls().map { InternalPlatform.ref(it) }.toHashSet()
-        val verifiedCalls = stub.verifiedCalls().map { InternalPlatform.ref(it) }.toHashSet()
+    private fun acknowledgeVerificationHelper(stub: Stub, ignoreGetters: Boolean = false) {
+        val allCalls = stub.allRecordedCalls()
+            .filter { !ignoreGetters || !it.method.name.startsWith("get") }
+            .map { InternalPlatform.ref(it) }.toHashSet()
+        val verifiedCalls = stub.verifiedCalls()
+            .filter { !ignoreGetters || !it.method.name.startsWith("get") }
+            .map { InternalPlatform.ref(it) }.toHashSet()
 
         if (allCalls == verifiedCalls) return
 

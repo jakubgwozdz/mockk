@@ -394,6 +394,13 @@ fun confirmVerified(vararg mocks: Any) = MockK.useImpl {
 }
 
 /**
+ * Checks if all recorded calls were verified. Ignore all calls to methods with names starting with "get".
+ */
+fun confirmVerifiedIgnoringGetters(vararg mocks: Any) = MockK.useImpl {
+    MockKDsl.internalConfirmVerifiedIgnoringGetters(*mocks)
+}
+
+/**
  * Checks if all recorded calls are necessary.
  */
 fun checkUnnecessaryStub(vararg mocks: Any) = MockK.useImpl {

@@ -43,6 +43,7 @@ public final class io/mockk/MockKKt {
 	public static final fun coVerifySequence (ZLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun coVerifySequence$default (ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static final fun confirmVerified ([Ljava/lang/Object;)V
+	public static final fun confirmVerifiedIgnoringGetters ([Ljava/lang/Object;)V
 	public static final fun every (Lkotlin/jvm/functions/Function1;)Lio/mockk/MockKStubScope;
 	public static final fun excludeRecords (ZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun excludeRecords$default (ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
@@ -733,8 +734,8 @@ public final class io/mockk/impl/recording/CommonCallRecorder$Companion {
 
 public final class io/mockk/impl/recording/CommonVerificationAcknowledger : io/mockk/MockKGateway$VerificationAcknowledger {
 	public fun <init> (Lio/mockk/impl/stub/StubRepository;Lio/mockk/impl/log/SafeToString;)V
-	public fun acknowledgeVerified ()V
-	public fun acknowledgeVerified (Ljava/lang/Object;)V
+	public fun acknowledgeVerified (Ljava/lang/Object;Z)V
+	public fun acknowledgeVerified (Z)V
 	public fun checkUnnecessaryStub ()V
 	public fun checkUnnecessaryStub (Ljava/lang/Object;)V
 	public final fun getSafeToString ()Lio/mockk/impl/log/SafeToString;

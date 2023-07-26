@@ -250,9 +250,9 @@ interface MockKGateway {
     interface VerificationAcknowledger {
         fun markCallVerified(invocation: Invocation)
 
-        fun acknowledgeVerified(mock: Any)
+        fun acknowledgeVerified(mock: Any, ignoreGetters: Boolean = false)
 
-        fun acknowledgeVerified()
+        fun acknowledgeVerified(ignoreGetters: Boolean = false)
 
         fun checkUnnecessaryStub(mock: Any)
 

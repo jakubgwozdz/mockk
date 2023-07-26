@@ -11,6 +11,7 @@ import kotlin.test.assertFailsWith
 class VerificationAcknowledgeTest {
     class MockCls {
         fun op(a: Int) = a + 1
+        val prop = 42
     }
 
     val mock = mockk<MockCls>()
@@ -636,6 +637,24 @@ class VerificationAcknowledgeTest {
         }
 
         confirmVerified()
+    }
+
+    @Test
+    fun failsOnNotVerifiedGetters() {
+        clearAllMocks()
+        every { mock.prop } returns 1
+        assertEquals(1, mock.prop)
+        assertFails {
+            confirmVerified()
+        }
+    }
+
+    @Test
+    fun ignoresCallsToGettersWhenRequested() {
+        clearAllMocks()
+        every { mock.prop } returns 1
+        assertEquals(1, mock.prop)
+        confirmVerifiedIgnoringGetters()
     }
 }
 

@@ -280,6 +280,19 @@ object MockKDsl {
     }
 
     /**
+     * Checks if all recorded calls were verified, ignoring methods with names starting with "get".
+     */
+    fun internalConfirmVerifiedIgnoringGetters(vararg mocks: Any) {
+        if (mocks.isEmpty()) {
+            MockKGateway.implementation().verificationAcknowledger.acknowledgeVerified(ignoreGetters = true)
+        }
+
+        for (mock in mocks) {
+            MockKGateway.implementation().verificationAcknowledger.acknowledgeVerified(mock, ignoreGetters = true)
+        }
+    }
+
+    /**
      * Checks if all recorded calls are necessary.
      */
     fun internalCheckUnnecessaryStub(vararg mocks: Any) {
